@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  *Class Ss_Structure use to define to strucuter of the api
  * @author sharaz
