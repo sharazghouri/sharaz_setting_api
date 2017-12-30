@@ -1,6 +1,8 @@
 <?php
 /*
 Plugin Name: Sharaz Settings
+* Version: 1.0.0
+* Author: Sharaz Ghouri
 */
 
 
