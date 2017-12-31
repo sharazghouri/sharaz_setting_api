@@ -18,6 +18,7 @@ class Ss_Settings {
 		include_once SS_PLUGIN_DIR . '/classes/class-ss-structure.php';
 
 		$this->setting_api = new Ss_Structure();
+		add_action( 'admin_init', array( $this, 'admin_init' ) );
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 
 	}
@@ -40,7 +41,7 @@ class Ss_Settings {
 	 * @since  1.0.0
 	 */
 	public function plugin_page() {
-		echo 'hello';
+		$this->setting_api->show_forms();
 	}
 
 	//sorting the array
@@ -59,11 +60,14 @@ class Ss_Settings {
 			array(
 				'id'       => 'test_1',
 				'title'    => __( 'Easy Setting Test', 'sharaz-settings' ),
+				'desc'     => 'section description',
+				'page'     => 'ss_page',
 				'priority' => '10',
 			),
 			array(
 				'id'       => 'test_2',
 				'title'    => __( 'Easy Setting Test2', 'sharaz_settings' ),
+				'page'     => 'ss_page1',
 				'priority' => '15',
 			),
 
@@ -72,10 +76,13 @@ class Ss_Settings {
 		//  use to filter the section any point
 		$setting_section = apply_filters( 'ss_section', $sections );
 
+
 		// sort the array parity wise
+
 		usort( $setting_section, array( $this, 'sort_array' ) );
 
-		return $setting_section;
+
+		return $sections;
 	}
 
 
@@ -96,7 +103,7 @@ class Ss_Settings {
 		 * link     ( [optional]   in case you send a  link to field)
 		 * sanitize_callback ( [optional] sanitize call back of the field)
 		 * priority   [ [optional] use to  giving parity  to the user]
-		 *
+		 * page      ( page name we use menu slug  this fields belong to this page)
 		 *
 		 * */
 
@@ -109,6 +116,7 @@ class Ss_Settings {
 					'label'             => __( 'Enter the name', 'sharaz_settings' ),
 					'desc'              => __( '<h4>Sharaz Setting Api</h4>if you like please share to others', 'sharaz_settings' ),
 					'type'              => 'ss_text',
+					'page'               => 'ss_page',
 					'sanitize_callback' => 'sanitize_text_field',
 					'priority'          => '5',
 				),
@@ -116,6 +124,7 @@ class Ss_Settings {
 					'name'     => 'salary',
 					'label'    => 'Select your salary range',
 					'type'     => 'ss_select',
+					'page'               => 'ss_page',
 					'default'  => '2000',
 					'options'  => array(
 						'1000' => '1000',
@@ -128,34 +137,52 @@ class Ss_Settings {
 					'name'              => 'advance_bonus',
 					'label'             => __( 'Receving advance bonus', 'sharaz_settings' ),
 					'type'              => 'ss_checkbox',
+					'page'               => 'ss_page',
 					'sanitize_callback' => 'sanitize_text_field',
 					'priority'          => '15',
 				),
 				array(
 					'name'     => 'your_color',
 					'label'    => __( 'Your Setting', 'sharaz-setting' ),
-					'type'     => 'ssb_color',
+					'type'     => 'ss_color',
+					'page'               => 'ss_page',
 					'default'  => '',
 					'priority' => '20',
 				)
 			),
 			'test_2' => array(
 
-				array(
 					array(
 						'name'              => 'suggestion',
 						'label'             => __( 'Ang suggestion', 'sharaz_settings' ),
 						'desc'              => __( '<h4>Please type some</h4>if you like suggest some thing to us', 'sharaz_settings' ),
 						'type'              => 'ss_text',
+						'page'               =>'ss_page1',
 						'sanitize_callback' => 'sanitize_text_field',
 						'priority'          => '5',
 					),
-				)
 
 			)
 		);
 
 		return $settings_fields;
+	}
+
+
+
+	/*
+     * initialize the setting the setting section and fields
+     * @author sharaz
+     */
+	public function admin_init() {
+
+		// set the settings
+
+		$this->setting_api->set_sections( $this->get_settings_sections());
+		$this->setting_api->set_fields( $this->get_settings_fields() );
+
+		// initialize settings
+		$this->setting_api->admin_init();
 	}
 }
 

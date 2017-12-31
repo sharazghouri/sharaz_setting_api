@@ -11,13 +11,13 @@ Plugin Name: Sharaz Settings
  * @author sharaz
  * @version 1.0.0
  * @since 1.0.0
- * 
+ *
  */
 class Sharaz_Settings {
 
 	function __construct() {
-	$this->constant();
-	$this->includes();
+		$this->constant();
+		$this->includes();
 	}
 
 	/**
@@ -39,10 +39,13 @@ class Sharaz_Settings {
 	 * @since   1.0.0
 	 * @version 1.0.0
 	 */
-	public function includes(){
+	public function includes() {
 
-		include_once SS_PLUGIN_DIR.'/classes/class-ss-settings.php';
+		include_once SS_PLUGIN_DIR . '/classes/class-ss-settings.php';
 	}
+
+
 }
 
-new  Sharaz_Settings();
+
+$object = new  Sharaz_Settings();
