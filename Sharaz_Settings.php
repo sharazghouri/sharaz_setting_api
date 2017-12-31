@@ -17,6 +17,7 @@ class Sharaz_Settings {
 
 	function __construct() {
 	$this->constant();
+	$this->includes();
 	}
 
 	/**
@@ -31,4 +32,17 @@ class Sharaz_Settings {
 		define( 'SS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
 	}
+
+	/**
+	 * include all plugin required files
+	 * @author sharaz
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 */
+	public function includes(){
+
+		include_once SS_PLUGIN_DIR.'/classes/class-ss-settings.php';
+	}
 }
+
+new  Sharaz_Settings();
